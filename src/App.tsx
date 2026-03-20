@@ -13,10 +13,10 @@ function App() {
     >
       <div>
         <h1 style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>
-          Study Tool PWA
+          Study Tool
         </h1>
         <p style={{ fontSize: '1.1rem', opacity: 0.9 }}>
-          Hello world. If this installs on iPhone, the setup works.
+          Hello bitch.
         </p>
       </div>
     </main>
