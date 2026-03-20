@@ -4,6 +4,10 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
   base: '/StudyTool/',
+  build: {
+    outDir: 'docs',
+    emptyOutDir: true,
+  },
   plugins: [
     react(),
     VitePWA({
