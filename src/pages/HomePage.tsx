@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
-import { sections } from '../data/studyData'
+import { getSections } from '../data'
 
 export default function HomePage() {
+  const sections = getSections()
+
   return (
     <div>
       <h1>Sections</h1>

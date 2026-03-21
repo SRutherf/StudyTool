@@ -26,17 +26,11 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/section/:sectionId" element={<SectionPage />} />
+          <Route path="/section/:sectionId/browse" element={<BrowsePage />} />
+          <Route path="/section/:sectionId/test" element={<TestPage />} />
           <Route
             path="/section/:sectionId/subsection/:subsectionId"
             element={<SubsectionPage />}
-          />
-          <Route
-            path="/section/:sectionId/subsection/:subsectionId/browse"
-            element={<BrowsePage />}
-          />
-          <Route
-            path="/section/:sectionId/subsection/:subsectionId/test"
-            element={<TestPage />}
           />
         </Routes>
       </main>

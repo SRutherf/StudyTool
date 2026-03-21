@@ -1,11 +1,14 @@
-import { useParams } from 'react-router-dom'
+import { useMemo } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
 import {
-  getQuestionsForSubsection,
+  getQuestionsForSubsections,
   getSection,
-  getSubsection,
-} from '../data/studyData'
+  getSubsectionsForSection,
+} from '../data'
 import { useProgress } from '../hooks/useProgress'
 import type { CardProgressStatus } from '../features/progress/progressTypes'
+import { filterQuestionsByMode } from '../utils/questionFilters'
+import type { Question } from '../data/types'
 
 function statusSymbol(status: CardProgressStatus | undefined) {
   if (!status || status === 'unseen') return '—'
@@ -20,30 +23,62 @@ function statusLabel(status: CardProgressStatus | undefined) {
 }
 
 export default function BrowsePage() {
-  const { sectionId = '', subsectionId = '' } = useParams()
+  const { sectionId = '' } = useParams()
+  const [searchParams] = useSearchParams()
   const section = getSection(sectionId)
-  const subsection = getSubsection(sectionId, subsectionId)
-  const subsectionQuestions = getQuestionsForSubsection(sectionId, subsectionId)
   const { progress } = useProgress()
 
-  if (!section || !subsection) {
+  const subsectionsCsv = searchParams.get('subsections') ?? ''
+  const filterMode = (searchParams.get('filter') ?? 'all') as
+    | 'all'
+    | 'wrong'
+    | 'unseen'
+
+  const selectedIds = useMemo(
+    () => subsectionsCsv.split(',').filter(Boolean),
+    [subsectionsCsv],
+  )
+
+  if (!section) {
     return <p>Browse page not found.</p>
   }
 
+  const selectedSubsections = getSubsectionsForSection(sectionId).filter(
+    (subsection) => selectedIds.includes(subsection.id),
+  )
+
+  const rawQuestions = getQuestionsForSubsections(sectionId, selectedIds)
+  const subsectionQuestions = filterQuestionsByMode(
+    rawQuestions,
+    progress,
+    filterMode,
+  )
+
   return (
     <div>
-      <h1>
-        {section.title} / {subsection.title} / Browse
-      </h1>
+      <h1>{section.title} / Browse</h1>
+      <p>
+        Subsections:{' '}
+        {selectedSubsections.length > 0
+          ? selectedSubsections.map((subsection) => subsection.title).join(', ')
+          : 'None selected'}
+      </p>
+      <p>Filter: {filterMode}</p>
 
       <div className="browse-legend">
-        <span><strong>—</strong> unseen</span>
-        <span><strong>✗</strong> wrong</span>
-        <span><strong>✓</strong> correct</span>
+        <span>
+          <strong>—</strong> unseen
+        </span>
+        <span>
+          <strong>✗</strong> wrong
+        </span>
+        <span>
+          <strong>✓</strong> correct
+        </span>
       </div>
 
       <div className="stack">
-        {subsectionQuestions.map((question) => {
+        {subsectionQuestions.map((question: Question) => {
           const cardProgress = progress.cards[question.id]
           const status = cardProgress?.status
 
@@ -68,6 +103,12 @@ export default function BrowsePage() {
             </article>
           )
         })}
+
+        {subsectionQuestions.length === 0 ? (
+          <article className="card">
+            <h2>No questions matched this filter.</h2>
+          </article>
+        ) : null}
       </div>
     </div>
   )
