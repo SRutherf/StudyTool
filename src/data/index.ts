@@ -1,12 +1,14 @@
+import { cicdSection } from './cicd'
 import { leetcodeSection } from './leetcode'
 import { systemsDesignSection } from './systemsDesign'
-import { storyRecallSection } from './storyRecall'
+import { behavioralHistorySection } from './storyRecall'
 import type { Question, SectionData, StudyDataMap } from './types'
 
 export const studyData: StudyDataMap = {
   [leetcodeSection.id]: leetcodeSection,
   [systemsDesignSection.id]: systemsDesignSection,
-  [storyRecallSection.id]: storyRecallSection,
+  [behavioralHistorySection.id]: behavioralHistorySection,
+  [cicdSection.id]: cicdSection,
 }
 
 export function getSections(): SectionData[] {

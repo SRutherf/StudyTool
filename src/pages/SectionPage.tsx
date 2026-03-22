@@ -122,9 +122,18 @@ export default function SectionPage() {
               <h2>{subsection.title}</h2>
               <p>{subsection.description}</p>
               <div className="mini-stats">
-                <span>✓ {stats?.correct ?? 0}</span>
-                <span>✗ {stats?.wrong ?? 0}</span>
-                <span>— {stats?.unseen ?? 0}</span>
+                <span>
+                  <span className="stat-icon">✓</span>
+                  <span className={`stat-number ${stats?.correct ? 'stat-number-green' : 'stat-number-gray'}`}>{stats?.correct ?? 0}</span>
+                </span>
+                <span>
+                  <span className="stat-icon">✗</span>
+                  <span className={`stat-number ${stats?.wrong ? 'stat-number-red' : 'stat-number-gray'}`}>{stats?.wrong ?? 0}</span>
+                </span>
+                <span>
+                  <span className="stat-icon">—</span>
+                  <span className="stat-number stat-number-gray">{stats?.unseen ?? 0}</span>
+                </span>
               </div>
             </button>
           )

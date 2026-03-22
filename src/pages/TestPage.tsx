@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
   getQuestionsForSubsections,
   getSection,
@@ -11,6 +11,7 @@ import { filterQuestionsByMode } from '../utils/questionFilters'
 
 export default function TestPage() {
   const { sectionId = '' } = useParams()
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const section = getSection(sectionId)
   const subsectionsCsv = searchParams.get('subsections') ?? ''
@@ -55,6 +56,7 @@ export default function TestPage() {
 
   const question = sessionQuestions[currentIndex]
   const answered = selectedIndex !== null
+  const isLastQuestion = currentIndex === sessionQuestions.length - 1
 
   function handleChoiceClick(index: number) {
     if (answered) return
@@ -64,13 +66,13 @@ export default function TestPage() {
   }
 
   function handleNext() {
+    if (isLastQuestion) {
+      navigate(`/section/${sectionId}`)
+      return
+    }
+
     setSelectedIndex(null)
-    setCurrentIndex((prev) => {
-      if (prev + 1 >= sessionQuestions.length) {
-        return 0
-      }
-      return prev + 1
-    })
+    setCurrentIndex((prev) => prev + 1)
   }
 
   return (
@@ -115,7 +117,7 @@ export default function TestPage() {
             </p>
             <p>{question.explanation}</p>
             <button className="button-link button-inline" onClick={handleNext}>
-              Next
+              {isLastQuestion ? 'Finish' : 'Next'}
             </button>
           </div>
         ) : null}

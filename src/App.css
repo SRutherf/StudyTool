@@ -278,13 +278,30 @@ p {
   background: #18243a;
 }
 
+
 .mini-stats {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   margin-top: 12px;
-  color: #94a3b8;
   font-size: 0.95rem;
+}
+
+.mini-stats .stat-icon {
+  color: #94a3b8;
+}
+.mini-stats .stat-number {
+  margin-left: 2px;
+  font-weight: 600;
+}
+.mini-stats .stat-number-gray {
+  color: #94a3b8;
+}
+.mini-stats .stat-number-green {
+  color: #22c55e;
+}
+.mini-stats .stat-number-red {
+  color: #ef4444;
 }
 
 .helper-text {
