@@ -6,6 +6,7 @@ import BrowsePage from './pages/BrowsePage'
 import TestPage from './pages/TestPage'
 import SettingsPage from './pages/SettingsPage'
 import './App.css'
+import DetailsPage from './pages/DetailsPage'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/section/:sectionId" element={<SectionPage />} />
           <Route path="/section/:sectionId/browse" element={<BrowsePage />} />
           <Route path="/section/:sectionId/test" element={<TestPage />} />
+          <Route path="/section/:sectionId/details" element={<DetailsPage />} />
           <Route
             path="/section/:sectionId/subsection/:subsectionId"
             element={<SubsectionPage />}

@@ -28,6 +28,8 @@ export function getSubsectionsForSection(sectionId: string) {
     sectionId,
     title: subsection.title,
     description: subsection.description,
+    explanation: subsection.explanation,
+    vocab: subsection.vocab,
   }))
 }
 

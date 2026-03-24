@@ -68,12 +68,15 @@ export default function SectionPage() {
     setSelectedIds([])
   }
 
-  function goToMode(mode: 'browse' | 'test') {
+  function goToMode(mode: 'browse' | 'test' | 'details') {
     if (selectedIds.length === 0) return
 
     const params = new URLSearchParams()
     params.set('subsections', selectedIds.join(','))
-    params.set('filter', filterMode)
+
+    if (mode !== 'details') {
+      params.set('filter', filterMode)
+    }
 
     navigate(`/section/${sectionId}/${mode}?${params.toString()}`)
   }
@@ -124,15 +127,25 @@ export default function SectionPage() {
               <div className="mini-stats">
                 <span>
                   <span className="stat-icon">✓</span>
-                  <span className={`stat-number ${stats?.correct ? 'stat-number-green' : 'stat-number-gray'}`}>{stats?.correct ?? 0}</span>
+                  <span
+                    className={`stat-number ${stats?.correct ? 'stat-number-green' : 'stat-number-gray'}`}
+                  >
+                    {stats?.correct ?? 0}
+                  </span>
                 </span>
                 <span>
                   <span className="stat-icon">✗</span>
-                  <span className={`stat-number ${stats?.wrong ? 'stat-number-red' : 'stat-number-gray'}`}>{stats?.wrong ?? 0}</span>
+                  <span
+                    className={`stat-number ${stats?.wrong ? 'stat-number-red' : 'stat-number-gray'}`}
+                  >
+                    {stats?.wrong ?? 0}
+                  </span>
                 </span>
                 <span>
                   <span className="stat-icon">—</span>
-                  <span className="stat-number stat-number-gray">{stats?.unseen ?? 0}</span>
+                  <span className="stat-number stat-number-gray">
+                    {stats?.unseen ?? 0}
+                  </span>
                 </span>
               </div>
             </button>
@@ -154,6 +167,13 @@ export default function SectionPage() {
           disabled={selectedIds.length === 0}
         >
           Test Selected
+        </button>
+        <button
+          className="button-link"
+          onClick={() => goToMode('details')}
+          disabled={selectedIds.length === 0}
+        >
+          Explain Selected
         </button>
       </div>
 

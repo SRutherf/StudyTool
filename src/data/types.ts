@@ -1,3 +1,8 @@
+export type Vocab = {
+  term: string
+  definition: string
+}
+
 export type Question = {
   id: string
   prompt: string
@@ -9,6 +14,8 @@ export type Question = {
 export type SubsectionData = {
   title: string
   description: string
+  explanation: string
+  vocab: Vocab[]
   questions: Question[]
 }
 

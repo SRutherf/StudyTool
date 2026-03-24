@@ -1,5 +1,9 @@
 import { Link, useParams } from 'react-router-dom'
-import { getQuestionsForSubsections, getSection, getSubsectionsForSection } from '../data'
+import {
+  getQuestionsForSubsections,
+  getSection,
+  getSubsectionsForSection,
+} from '../data'
 
 export default function SubsectionPage() {
   const { sectionId = '', subsectionId = '' } = useParams()
@@ -17,9 +21,12 @@ export default function SubsectionPage() {
     return <p>Subsection not found.</p>
   }
 
-  const params = new URLSearchParams()
-  params.set('subsections', subsectionId)
-  params.set('filter', 'all')
+  const questionParams = new URLSearchParams()
+  questionParams.set('subsections', subsectionId)
+  questionParams.set('filter', 'all')
+
+  const detailsParams = new URLSearchParams()
+  detailsParams.set('subsections', subsectionId)
 
   return (
     <div>
@@ -32,16 +39,22 @@ export default function SubsectionPage() {
 
       <div className="button-row">
         <Link
-          to={`/section/${section.id}/browse?${params.toString()}`}
+          to={`/section/${section.id}/browse?${questionParams.toString()}`}
           className="button-link"
         >
           Browse
         </Link>
         <Link
-          to={`/section/${section.id}/test?${params.toString()}`}
+          to={`/section/${section.id}/test?${questionParams.toString()}`}
           className="button-link"
         >
           Test
+        </Link>
+        <Link
+          to={`/section/${section.id}/details?${detailsParams.toString()}`}
+          className="button-link"
+        >
+          Explain Selected
         </Link>
       </div>
     </div>
