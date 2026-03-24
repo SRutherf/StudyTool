@@ -5,7 +5,7 @@ export const behavioralHistorySection: SectionData = {
   title: 'Behavioral / History',
   description: 'Behavioral interview prep and personal story recall',
   subsections: {
-    'tell-me-about-yourself': {
+    tellMeAboutYourself: {
       title: 'Tell Me About Yourself',
       description:
         'Intro narrative, career arc, and concise self-summary',
@@ -61,7 +61,7 @@ export const behavioralHistorySection: SectionData = {
       vocab: [],
       questions: [],
     },
-    'cross-team': {
+    crossTeam: {
       title: 'Cross-Team Collaboration',
       description:
         'Partnering across teams, stakeholders, and disciplines',
@@ -77,7 +77,7 @@ export const behavioralHistorySection: SectionData = {
       vocab: [],
       questions: [],
     },
-    'technical-decision': {
+    technicalDecision: {
       title: 'Technical Decision',
       description:
         'Architecture choices, tradeoffs, and decision-making rationale',
@@ -85,7 +85,7 @@ export const behavioralHistorySection: SectionData = {
       vocab: [],
       questions: [],
     },
-    'why-leaving': {
+    whyLeaving: {
       title: 'Why Leaving',
       description:
         'Framing your transition professionally and credibly',
@@ -93,7 +93,7 @@ export const behavioralHistorySection: SectionData = {
       vocab: [],
       questions: [],
     },
-    'why-company': {
+    whyCompany: {
       title: 'Why This Company',
       description:
         'Motivation, fit, and company-specific interest',
