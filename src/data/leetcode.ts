@@ -14,8 +14,7 @@ export const leetcodeSection: SectionData = {
           term: 'contiguous memory',
           definition:
             'Array elements are stored next to each other in memory, allowing fast index-based access.',
-        },
-        {
+        },        {
           term: 'index',
           definition:
             'The position of an element in the array, usually used for O(1) lookup.',
@@ -3766,6 +3765,613 @@ export const leetcodeSection: SectionData = {
             'Merge sort is the standard optimal approach for sorting linked lists because linked lists support splitting and merging efficiently without random access. Use fast/slow pointers to split the list into two halves, recursively sort each half, then merge the sorted halves. Time complexity is O(n log n). The algorithm uses O(log n) recursion stack space in most implementations, though it is often discussed as the right linked-list sorting strategy because it avoids the random-access requirements of array-based sorts like quicksort or heapsort.',
         },
       ]
+    },
+    recursion: {
+      title: 'Recursion',
+      description:
+        'Base cases, recursive decomposition, DFS patterns, and call-stack reasoning',
+      explanation:
+        'Recursion solves a problem by reducing it into smaller instances of the same problem until reaching a base case. In coding interviews, recursion appears constantly in trees, graphs, backtracking, divide-and-conquer, linked lists, and dynamic programming. Strong candidates do not treat recursion as magic. They identify the base case, define what each recursive call returns or accomplishes, and reason clearly about how the smaller result combines into the full answer. Just as important, they understand the practical risks: stack depth, repeated subproblems, and when recursion should be replaced with memoization or an explicit stack. Interview recursion is usually less about syntax and more about whether you can model a problem in a self-similar way.',
+      vocab: [
+        {
+          term: 'recursion',
+          definition:
+            'A technique where a function solves a problem by calling itself on smaller subproblems.',
+        },
+        {
+          term: 'base case',
+          definition:
+            'The stopping condition that prevents infinite recursion.',
+        },
+        {
+          term: 'recursive case',
+          definition:
+            'The part of the function that reduces the problem and calls itself again.',
+        },
+        {
+          term: 'call stack',
+          definition:
+            'The stack of active function calls maintained by the runtime.',
+        },
+        {
+          term: 'stack overflow',
+          definition:
+            'A runtime failure caused by too many nested recursive calls.',
+        },
+        {
+          term: 'divide and conquer',
+          definition:
+            'A strategy that splits a problem into smaller independent parts, solves them, and combines the results.',
+        },
+        {
+          term: 'backtracking',
+          definition:
+            'A recursive search technique that tries choices, explores, and then undoes them.',
+        },
+        {
+          term: 'DFS',
+          definition:
+            'Depth-first search, often naturally implemented with recursion.',
+        },
+        {
+          term: 'postorder',
+          definition:
+            'A traversal pattern where recursive calls happen before processing the current node’s final result.',
+        },
+        {
+          term: 'preorder',
+          definition:
+            'A traversal pattern where processing happens before recursive calls descend further.',
+        },
+        {
+          term: 'inorder',
+          definition:
+            'A binary-tree traversal pattern of left, node, right.',
+        },
+        {
+          term: 'memoization',
+          definition:
+            'Caching recursive results so repeated subproblems are not recomputed.',
+        },
+        {
+          term: 'subproblem',
+          definition:
+            'A smaller instance of the original problem solved within recursion.',
+        },
+        {
+          term: 'state',
+          definition:
+            'The information that defines a recursive call, such as index, path, or remaining target.',
+        },
+        {
+          term: 'implicit stack',
+          definition:
+            'Using the language runtime call stack instead of creating an explicit stack data structure yourself.',
+        },
+        {
+          term: 'tree height',
+          definition:
+            'The number of levels or longest root-to-leaf path, often relevant to recursive complexity.',
+        },
+        {
+          term: 'leaf node',
+          definition:
+            'A node with no children, often a natural base case in tree recursion.',
+        },
+        {
+          term: 'tail recursion',
+          definition:
+            'A recursive style where the recursive call is the last operation, though many interview languages do not optimize it.',
+        },
+        {
+          term: 'combine step',
+          definition:
+            'The logic that merges recursive results into the answer for the current call.',
+        },
+        {
+          term: 'termination',
+          definition:
+            'The guarantee that recursion eventually reaches a base case and stops.',
+        },
+      ],
+      questions: [
+        {
+          id: 'lc-rec-1',
+          prompt:
+            'What is the most important ingredient that prevents infinite recursion?',
+          choices: [
+            'A correct base case',
+            'A hash map',
+            'Sorting the input first',
+            'A priority queue',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Every recursive function needs a stopping condition. Without a base case, the function keeps calling itself until it crashes. In interviews, the first thing to verify is usually “When does this stop?”',
+        },
+        {
+          id: 'lc-rec-2',
+          prompt:
+            'Why are tree problems often a natural fit for recursion?',
+          choices: [
+            'Because each subtree is itself a smaller tree problem',
+            'Because trees always require dynamic programming',
+            'Because recursion makes tree nodes mutable',
+            'Because iterative tree solutions are impossible',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Trees are self-similar. The left subtree and right subtree are smaller versions of the same structure, so recursion often mirrors the problem definition very cleanly.',
+        },
+        {
+          id: 'lc-rec-3',
+          prompt:
+            'What does the call stack store during recursion?',
+          choices: [
+            'The active function calls and their local state',
+            'Only the final answer',
+            'A sorted copy of the array',
+            'All visited nodes in BFS order',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Each recursive call has its own parameters, locals, and return point. The runtime stores these frames on the call stack. Deep recursion can therefore consume significant stack memory.',
+        },
+        {
+          id: 'lc-rec-4',
+          prompt:
+            'Which traversal is left subtree, then node, then right subtree?',
+          choices: ['Inorder', 'Preorder', 'Postorder', 'Level order'],
+          correctIndex: 0,
+          explanation:
+            'Inorder traversal of a binary tree visits left, then current node, then right. It is especially common in BST problems because it visits values in sorted order.',
+        },
+        {
+          id: 'lc-rec-5',
+          prompt:
+            'Which traversal processes the current node before recursing into children?',
+          choices: ['Preorder', 'Postorder', 'Inorder', 'Bottom-up'],
+          correctIndex: 0,
+          explanation:
+            'Preorder means process first, then recurse. That is useful when you want to copy a tree, serialize structure top-down, or build paths while descending.',
+        },
+        {
+          id: 'lc-rec-6',
+          prompt:
+            'Which traversal usually fits problems where a node answer depends on answers from its children?',
+          choices: ['Postorder', 'Preorder', 'Level order', 'Binary search'],
+          correctIndex: 0,
+          explanation:
+            'When the parent depends on completed child results, postorder is a natural fit because you recurse first and combine afterward. Many height, balance, diameter, and subtree-aggregation problems follow this pattern.',
+        },
+        {
+          id: 'lc-rec-7',
+          prompt:
+            'If a recursive solution recomputes the same subproblems many times, what technique most directly helps?',
+          choices: ['Memoization', 'Two pointers', 'Heapifying', 'Bucket sort'],
+          correctIndex: 0,
+          explanation:
+            'Memoization stores answers for previously solved states so repeated recursive calls reuse the cached result. This is the classic top-down dynamic programming improvement.',
+        },
+        {
+          id: 'lc-rec-8',
+          prompt:
+            'What is the main difference between recursion and backtracking?',
+          choices: [
+            'Backtracking is recursion that explores choices and undoes them',
+            'Backtracking never uses recursion',
+            'Recursion only works on trees',
+            'Backtracking always guarantees polynomial time',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Backtracking is a special recursive pattern for exploring possibilities. You choose, recurse, and then undo the choice so you can try the next possibility.',
+        },
+        {
+          id: 'lc-rec-9',
+          prompt:
+            'What is usually the recursive state in a “generate all subsets” problem?',
+          choices: [
+            'The current index and the current subset/path',
+            'Only the final answer length',
+            'A heap of used values',
+            'The array sorted in descending order only',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Subset recursion typically tracks where you are in the input and what elements are currently chosen. That state is enough to branch on include versus exclude decisions.',
+        },
+        {
+          id: 'lc-rec-10',
+          prompt:
+            'Why can recursion be risky on a very deep linked list or skewed tree?',
+          choices: [
+            'It may exceed the call stack limit',
+            'It automatically changes node values',
+            'It forces O(n log n) time',
+            'It cannot return values correctly',
+          ],
+          correctIndex: 0,
+          explanation:
+            'If recursion depth grows linearly with input depth, the program may hit stack overflow. This is one reason interviewers sometimes ask for iterative alternatives on deep structures.',
+        },
+        {
+          id: 'lc-rec-11',
+          prompt:
+            'When writing a recursive helper, what should you usually define clearly first?',
+          choices: [
+            'What each call returns or accomplishes',
+            'How to use a priority queue',
+            'The exact variable names for the loop',
+            'How to avoid all helper functions',
+          ],
+          correctIndex: 0,
+          explanation:
+            'A powerful way to reason about recursion is to define the contract of the helper. For example: “This function returns the height of the subtree rooted here.” Once that contract is clear, the implementation becomes much easier.',
+        },
+        {
+          id: 'lc-rec-12',
+          prompt:
+            'Which problem pattern is most naturally recursive?',
+          choices: [
+            'Computing the maximum depth of a binary tree',
+            'Finding the median of two sorted arrays by merging everything',
+            'Keeping track of a monotonic stack',
+            'Scanning a fixed-size sliding window',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Maximum depth is naturally expressed as 1 + max(left depth, right depth). That directly mirrors recursive tree structure.',
+        },
+        {
+          id: 'lc-rec-13',
+          prompt:
+            'What is the combine step in recursion?',
+          choices: [
+            'The logic that builds the current answer from recursive results',
+            'The moment you allocate the input array',
+            'The syntax for declaring the helper function',
+            'The rule that all recursive calls must be identical',
+          ],
+          correctIndex: 0,
+          explanation:
+            'A recursive solution often has three parts: base case, recursive calls, and combine step. The combine step is where child answers or smaller subproblem answers become the answer for the current state.',
+        },
+        {
+          id: 'lc-rec-14',
+          prompt:
+            'Which statement about recursion in interviews is most accurate?',
+          choices: [
+            'It is often cleaner than iteration when the data structure is naturally hierarchical',
+            'It is always faster than iteration',
+            'It should never use helper functions',
+            'It only works for mathematical sequences',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Recursion is often chosen for clarity and natural structure, especially in trees, graphs, and backtracking. It is not automatically faster, and sometimes iterative solutions are safer.',
+        },
+        {
+          id: 'lc-rec-15',
+          prompt:
+            'If a recursive tree function returns incorrect results, what is often the best debugging question?',
+          choices: [
+            'What is my helper supposed to return for one node, and is the base case consistent with that contract?',
+            'Did I sort the tree values first?',
+            'Should I replace recursion with a heap immediately?',
+            'Did I use enough global variables?',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Most recursive bugs come from a broken function contract or an inconsistent base case. Re-checking what the helper means and what null or leaf should return is often the fastest fix.',
+        },
+      ],
+    },
+    search: {
+      title: 'Search',
+      description:
+        'Binary search, graph search, state exploration, and pruning strategies',
+      explanation:
+        'Search in interview problems means systematically exploring possibilities to find a target, an answer, or a valid state. That can mean binary search over a sorted domain, BFS over levels of a graph, DFS through a state space, or backtracking through candidate solutions. Strong candidates do not memorize one “search trick.” They identify the search space, decide whether they need shortest path, exhaustive exploration, or boundary finding, and then pick the right technique. Search problems are often really about recognizing structure: sorted monotonic conditions suggest binary search, unweighted shortest path suggests BFS, hierarchical or exhaustive exploration often suggests DFS or backtracking. The most important skill is matching the problem shape to the search method.',
+      vocab: [
+        {
+          term: 'search space',
+          definition:
+            'The full set of candidates, states, or answers that the algorithm may need to explore.',
+        },
+        {
+          term: 'binary search',
+          definition:
+            'A search technique that repeatedly halves a monotonic sorted search range.',
+        },
+        {
+          term: 'BFS',
+          definition:
+            'Breadth-first search, which explores level by level and is often used for shortest path in unweighted graphs.',
+        },
+        {
+          term: 'DFS',
+          definition:
+            'Depth-first search, which explores one path deeply before backtracking.',
+        },
+        {
+          term: 'visited set',
+          definition:
+            'A set used to avoid reprocessing the same node or state repeatedly.',
+        },
+        {
+          term: 'queue',
+          definition:
+            'The data structure commonly used for BFS to process states in first-in, first-out order.',
+        },
+        {
+          term: 'stack',
+          definition:
+            'A data structure or implicit call-stack behavior used for DFS.',
+        },
+        {
+          term: 'monotonic predicate',
+          definition:
+            'A condition that stays false then true, or true then false, across a search range, enabling binary search.',
+        },
+        {
+          term: 'boundary search',
+          definition:
+            'Using binary search to find the first or last position where a condition changes.',
+        },
+        {
+          term: 'pruning',
+          definition:
+            'Skipping branches of the search space that cannot lead to a useful solution.',
+        },
+        {
+          term: 'state graph',
+          definition:
+            'A graph where each node represents a problem state and edges represent allowed transitions.',
+        },
+        {
+          term: 'shortest path',
+          definition:
+            'The minimum number of edges or cost needed to move from one state to another.',
+        },
+        {
+          term: 'level-order exploration',
+          definition:
+            'Exploring states by distance or depth layer, characteristic of BFS.',
+        },
+        {
+          term: 'answer-space binary search',
+          definition:
+            'Binary search over possible answers rather than directly over array indices.',
+        },
+        {
+          term: 'feasibility check',
+          definition:
+            'A helper that tests whether a candidate answer works, often used inside answer-space binary search.',
+        },
+        {
+          term: 'branching factor',
+          definition:
+            'How many next choices or neighbors each state can generate.',
+        },
+        {
+          term: 'neighbor expansion',
+          definition:
+            'Generating adjacent states from the current state in graph or grid search.',
+        },
+        {
+          term: 'unweighted graph',
+          definition:
+            'A graph where every edge has equal cost, making BFS suitable for shortest path.',
+        },
+        {
+          term: 'target state',
+          definition:
+            'The state the search is trying to find or reach.',
+        },
+        {
+          term: 'termination condition',
+          definition:
+            'The rule that determines when the search can stop.',
+        },
+      ],
+      questions: [
+        {
+          id: 'lc-search-1',
+          prompt:
+            'When is classic binary search most appropriate?',
+          choices: [
+            'When the search space is ordered and the condition is monotonic',
+            'When you need shortest path in an unweighted graph',
+            'When every permutation must be generated',
+            'When the input is a linked list with random pointers',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Binary search relies on order and a monotonic rule that lets you eliminate half the search space each step. Without that structure, halving is not justified.',
+        },
+        {
+          id: 'lc-search-2',
+          prompt:
+            'Which search technique is best for shortest path in an unweighted graph?',
+          choices: ['BFS', 'DFS', 'Binary search', 'Quickselect'],
+          correctIndex: 0,
+          explanation:
+            'BFS explores by layers of distance. The first time it reaches a node in an unweighted graph, that path uses the fewest edges.',
+        },
+        {
+          id: 'lc-search-3',
+          prompt:
+            'Why is a queue used in BFS?',
+          choices: [
+            'Because BFS must process states in first-in, first-out level order',
+            'Because queues automatically sort nodes',
+            'Because recursion requires a queue',
+            'Because BFS only works on arrays',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The FIFO behavior of a queue ensures nodes are expanded in the order they were discovered, which preserves the layer-by-layer property needed for unweighted shortest paths.',
+        },
+        {
+          id: 'lc-search-4',
+          prompt:
+            'What is the main reason to maintain a visited set in graph search?',
+          choices: [
+            'To avoid infinite loops and repeated work',
+            'To keep nodes sorted',
+            'To guarantee O(log n) time',
+            'To replace the queue or stack',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Graphs can contain cycles or multiple paths to the same node. Without visited tracking, the search may revisit states indefinitely or do a lot of redundant work.',
+        },
+        {
+          id: 'lc-search-5',
+          prompt:
+            'Which technique is usually best when you need to explore all valid combinations or paths?',
+          choices: ['DFS/backtracking', 'BFS', 'Binary search', 'Heap search'],
+          correctIndex: 0,
+          explanation:
+            'When the goal is exhaustive exploration rather than shortest path, DFS or backtracking is often the natural pattern. It descends through choices and backtracks when done.',
+        },
+        {
+          id: 'lc-search-6',
+          prompt:
+            'What is answer-space binary search?',
+          choices: [
+            'Binary searching possible answer values and checking feasibility',
+            'Binary searching only on tree nodes',
+            'Searching both halves recursively and summing them',
+            'Running BFS twice on the same graph',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Some problems do not directly ask for an index in a sorted array, but the answer itself lies in a numeric range with a monotonic feasibility condition. Then you binary search the answer value.',
+        },
+        {
+          id: 'lc-search-7',
+          prompt:
+            'If you need the first index where a condition becomes true in a sorted range, what pattern is that?',
+          choices: [
+            'Boundary binary search',
+            'Topological sorting',
+            'Union-find compression',
+            'Sliding window contraction',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Boundary search is a classic binary search use case. You are not just asking “is target present?” but “where does the false-to-true transition happen?”',
+        },
+        {
+          id: 'lc-search-8',
+          prompt:
+            'Why is DFS often convenient for grids and graphs even when written recursively?',
+          choices: [
+            'Because it naturally follows one path deeply and backtracks cleanly',
+            'Because it always finds the shortest path first',
+            'Because it does not need visited tracking',
+            'Because it sorts neighbors automatically',
+          ],
+          correctIndex: 0,
+          explanation:
+            'DFS is a natural way to explore connected regions, components, or all reachable states. It is especially common in flood fill, island counting, and path-existence problems.',
+        },
+        {
+          id: 'lc-search-9',
+          prompt:
+            'What does pruning mean in a search problem?',
+          choices: [
+            'Skipping branches that cannot lead to a useful solution',
+            'Deleting part of the input permanently',
+            'Converting DFS into BFS',
+            'Sorting neighbors before every recursive call',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Pruning reduces work by cutting off hopeless branches early. In backtracking, pruning is often what turns an impossible brute-force search into a practical interview solution.',
+        },
+        {
+          id: 'lc-search-10',
+          prompt:
+            'Which statement about BFS and DFS is most accurate?',
+          choices: [
+            'BFS is often better for unweighted shortest path, while DFS is often better for exhaustive exploration',
+            'DFS always uses less memory than BFS in every case',
+            'BFS and DFS always return identical traversal order',
+            'DFS cannot be iterative',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Their strengths differ. BFS explores by distance layers, while DFS goes deep first. That makes them suitable for different classes of problems.',
+        },
+        {
+          id: 'lc-search-11',
+          prompt:
+            'What is the main requirement for using binary search on an answer range?',
+          choices: [
+            'A monotonic feasibility function over the candidate answers',
+            'A graph with no cycles',
+            'A queue-based traversal',
+            'All values must be unique',
+          ],
+          correctIndex: 0,
+          explanation:
+            'To binary search answers, you need a function like “Can we achieve this answer?” that changes in one direction across the range. Otherwise you cannot discard half the possibilities safely.',
+        },
+        {
+          id: 'lc-search-12',
+          prompt:
+            'In a maze where each move has equal cost and you want the minimum number of moves, what is the best default search?',
+          choices: ['BFS', 'DFS', 'Binary search', 'Recursion without visited'],
+          correctIndex: 0,
+          explanation:
+            'Equal edge cost means the shortest path by number of moves is exactly what BFS is designed to find. DFS may eventually find a path, but not necessarily the shortest one first.',
+        },
+        {
+          id: 'lc-search-13',
+          prompt:
+            'What is the “state” in a search problem?',
+          choices: [
+            'The information needed to uniquely describe where you are in the exploration',
+            'Only the final output array',
+            'The runtime language being used',
+            'The number of lines in the solution',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Search problems are much easier once you define state clearly. For example, a state might be a grid position, a word transformation, or an index plus remaining budget.',
+        },
+        {
+          id: 'lc-search-14',
+          prompt:
+            'Why can DFS without a visited set be wrong on a cyclic graph?',
+          choices: [
+            'It may revisit the same nodes forever or do redundant work',
+            'It automatically becomes BFS',
+            'It loses access to neighbors',
+            'It forces the graph to become directed',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Cycles are the classic reason visited tracking matters. Without it, DFS can get trapped revisiting states endlessly or expanding them many more times than necessary.',
+        },
+        {
+          id: 'lc-search-15',
+          prompt:
+            'What is usually the first question to ask when choosing a search strategy?',
+          choices: [
+            'What structure does the search space have, and do I need shortest path, exhaustive exploration, or boundary finding?',
+            'Should I use recursion no matter what?',
+            'Can I force the solution to use a heap?',
+            'Would sorting the input always help?',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Choosing a search method is mainly about identifying the problem shape. Sorted monotonic search space suggests binary search, unweighted shortest path suggests BFS, and exhaustive structured exploration often suggests DFS or backtracking.',
+        },
+      ],
     },
     slidingWindow: {
       title: 'Sliding Window',

@@ -2510,5 +2510,507 @@ export const cicdSection: SectionData = {
         },
       ],
     },
+    branchingStrategies: {
+      title: 'Branching Strategies',
+      description:
+        'Organizing code changes, integration flow, and release isolation in version control',
+      explanation:
+        'Branching strategy is the set of rules a team uses to organize code changes in version control so development can move quickly without creating chaos around integration and release. In CI/CD discussions, strong candidates understand that branching is not just a git preference. It affects merge frequency, conflict risk, release stability, pipeline design, and how long code stays unintegrated. Common approaches include trunk-based development, feature branches, release branches, and Gitflow-style models, each with tradeoffs in simplicity, isolation, and operational overhead. Good answers explain how a branching model supports code review, automated testing, release preparation, hotfixes, and safe collaboration across teams. The goal is to show that source control workflow should match the team’s release model and appetite for complexity.',
+      vocab: [
+        {
+          term: 'branch',
+          definition:
+            'A parallel line of development in version control representing a series of commits.',
+        },
+        {
+          term: 'main branch',
+          definition:
+            'The primary integration branch, often expected to stay releasable or close to releasable.',
+        },
+        {
+          term: 'feature branch',
+          definition:
+            'A short-lived branch used to develop one feature or change before merging back.',
+        },
+        {
+          term: 'release branch',
+          definition:
+            'A branch created to stabilize and prepare a specific release while other work continues elsewhere.',
+        },
+        {
+          term: 'hotfix branch',
+          definition:
+            'A branch used to create and ship an urgent production fix outside the normal release flow.',
+        },
+        {
+          term: 'trunk-based development',
+          definition:
+            'A workflow where developers integrate small changes frequently into a shared main branch.',
+        },
+        {
+          term: 'Gitflow',
+          definition:
+            'A branching model using long-lived branches such as main, develop, release, and hotfix branches.',
+        },
+        {
+          term: 'merge conflict',
+          definition:
+            'A version control conflict that occurs when overlapping changes cannot be combined automatically.',
+        },
+        {
+          term: 'long-lived branch',
+          definition:
+            'A branch that remains active for an extended period rather than being merged quickly.',
+        },
+        {
+          term: 'short-lived branch',
+          definition:
+            'A branch intended to be merged quickly to reduce drift and conflict risk.',
+        },
+        {
+          term: 'integration frequency',
+          definition:
+            'How often developers merge changes back into the shared codebase.',
+        },
+        {
+          term: 'branch protection',
+          definition:
+            'Rules that restrict direct changes or require checks before merges into important branches.',
+        },
+        {
+          term: 'pull request',
+          definition:
+            'A proposed set of code changes submitted for review and merge into another branch.',
+        },
+        {
+          term: 'rebasing',
+          definition:
+            'Reapplying commits onto a new base branch to create a cleaner or updated history.',
+        },
+        {
+          term: 'merge commit',
+          definition:
+            'A commit that records the combination of two lines of development.',
+        },
+        {
+          term: 'squash merge',
+          definition:
+            'A merge strategy that combines a branch’s commits into a single commit on the target branch.',
+        },
+        {
+          term: 'integration drift',
+          definition:
+            'The growing difference between a branch and the main codebase over time.',
+        },
+        {
+          term: 'release isolation',
+          definition:
+            'Keeping code intended for release stable while other development continues separately.',
+        },
+        {
+          term: 'code freeze',
+          definition:
+            'A temporary restriction on merging new changes, often used before a release.',
+        },
+        {
+          term: 'merge queue',
+          definition:
+            'A controlled merge system that serializes or batches approved changes while preserving required checks.',
+        },
+      ],
+      questions: [
+        {
+          id: 'cicd-branch-1',
+          prompt:
+            'What is the main purpose of a branching strategy?',
+          choices: [
+            'To organize how code changes are developed, integrated, and released safely',
+            'To replace testing and code review entirely',
+            'To ensure every developer works directly in production',
+            'To avoid using version control for releases',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Branching strategy defines how work flows through the repository. It affects collaboration, conflict rates, release stability, and how well CI/CD can validate changes before they ship.',
+        },
+        {
+          id: 'cicd-branch-2',
+          prompt:
+            'What is a major advantage of short-lived feature branches?',
+          choices: [
+            'They reduce integration drift and usually make merge conflicts easier to manage',
+            'They eliminate the need for CI checks',
+            'They make release branches unnecessary in all teams',
+            'They allow developers to ignore the main branch for weeks',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Short-lived branches tend to stay closer to main, which reduces the risk of painful merge conflicts and hidden integration surprises. This aligns well with fast feedback and continuous integration.',
+        },
+        {
+          id: 'cicd-branch-3',
+          prompt:
+            'What is the core idea of trunk-based development?',
+          choices: [
+            'Developers integrate small changes frequently into a shared main branch',
+            'All work happens on long-lived release branches only',
+            'Production fixes must wait for the next quarterly release',
+            'Every feature should remain isolated until it is fully complete',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Trunk-based development favors frequent integration and smaller changes. This keeps the codebase moving together and tends to reduce long-lived divergence, though it requires good testing and disciplined release controls.',
+        },
+        {
+          id: 'cicd-branch-4',
+          prompt:
+            'Why can long-lived branches become risky?',
+          choices: [
+            'They can drift far from main and accumulate difficult integration conflicts',
+            'They automatically delete commit history',
+            'They prevent pull requests from being opened',
+            'They are incompatible with unit testing',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The longer a branch stays separate, the more likely the surrounding code changes underneath it. That increases merge pain and can hide integration problems until late in the process.',
+        },
+        {
+          id: 'cicd-branch-5',
+          prompt:
+            'When might a release branch be useful?',
+          choices: [
+            'When a team wants to stabilize one release while ongoing feature work continues separately',
+            'When the team wants to stop all testing before production',
+            'When developers need a place to store secrets in git history',
+            'When there is no need for version control isolation',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Release branches can help isolate stabilization work such as bug fixes, versioning, or final validation while new features continue on other branches. They are useful in some workflows, though they add process overhead.',
+        },
+        {
+          id: 'cicd-branch-6',
+          prompt:
+            'What is a hotfix branch typically used for?',
+          choices: [
+            'Shipping an urgent production fix outside the normal release cadence',
+            'Developing a long-term experimental rewrite only',
+            'Replacing main as the permanent integration branch',
+            'Storing deployment artifacts instead of source code',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Hotfix branches are commonly used when production needs a rapid correction and waiting for the normal release flow would create too much user or business impact.',
+        },
+        {
+          id: 'cicd-branch-7',
+          prompt:
+            'Why are branch protection rules valuable?',
+          choices: [
+            'They help enforce review and required checks before important branches are changed',
+            'They remove the need for CI pipelines',
+            'They make merge conflicts impossible',
+            'They guarantee every release succeeds',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Branch protection helps teams keep key branches stable by requiring conditions such as passing CI, review approvals, or linear history rules before merges are allowed.',
+        },
+        {
+          id: 'cicd-branch-8',
+          prompt:
+            'What is the tradeoff of Gitflow-style branching compared with simpler workflows?',
+          choices: [
+            'It offers more release isolation but adds process and branch management complexity',
+            'It always results in faster merges and less coordination',
+            'It removes the need for pull requests',
+            'It only works for monorepos',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Gitflow can be useful for teams with formal release processes, but it introduces more long-lived branches and coordination overhead than simpler trunk-based or short-lived branch models.',
+        },
+        {
+          id: 'cicd-branch-9',
+          prompt:
+            'Why does integration frequency matter in CI/CD?',
+          choices: [
+            'Frequent integration surfaces conflicts and regressions earlier, when they are easier to fix',
+            'Infrequent integration always improves release safety',
+            'Integration frequency only matters for frontend teams',
+            'CI pipelines work best when merges happen only once per month',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The longer code stays unmerged, the more likely hidden problems accumulate. Frequent integration works well with CI because automation can validate changes continuously rather than in giant batches.',
+        },
+        {
+          id: 'cicd-branch-10',
+          prompt:
+            'What is the best high-level branching strategy mindset?',
+          choices: [
+            'Choose the simplest workflow that supports your release model, collaboration needs, and integration discipline',
+            'Always use the most complex branch model available',
+            'Avoid merging often so changes stay isolated longer',
+            'Treat version control structure as unrelated to CI/CD',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The right branching model depends on how the team releases software and coordinates work. Strong answers focus on fit for the team’s process, not on treating one git workflow as universally correct.',
+        },
+      ],
+    },
+    secretsManagement: {
+      title: 'Secrets Management',
+      description:
+        'Protecting credentials, secure injection, and controlled secret lifecycle',
+      explanation:
+        'Secrets management is the practice of storing, distributing, rotating, and auditing sensitive credentials safely across development and production systems. In CI/CD and infrastructure design, this matters because pipelines, applications, and services often need access to tokens, API keys, certificates, passwords, and signing material. Strong candidates understand that secrets should not live in source code, random config files, or manually copied deployment scripts. Good answers explain how secrets are stored in dedicated systems or protected platform facilities, injected securely at runtime or deploy time, rotated regularly, scoped by least privilege, and kept separate by environment. The goal is to reduce leakage risk, reduce blast radius, and make credential use operationally safe and auditable.',
+      vocab: [
+        {
+          term: 'secret',
+          definition:
+            'Sensitive credential material such as a password, API key, token, or private certificate key.',
+        },
+        {
+          term: 'secrets management',
+          definition:
+            'The controlled storage, access, rotation, and auditing of sensitive credentials.',
+        },
+        {
+          term: 'secret store',
+          definition:
+            'A dedicated system or platform feature used to hold secrets securely.',
+        },
+        {
+          term: 'rotation',
+          definition:
+            'Replacing a secret with a new value on a controlled schedule or in response to risk.',
+        },
+        {
+          term: 'least privilege',
+          definition:
+            'Granting access only to the minimum secrets and permissions required for a task.',
+        },
+        {
+          term: 'secret injection',
+          definition:
+            'Providing secrets securely to an application or workflow at runtime or deployment time.',
+        },
+        {
+          term: 'environment-specific secret',
+          definition:
+            'A credential scoped to one environment such as dev, staging, or prod rather than shared everywhere.',
+        },
+        {
+          term: 'credential leak',
+          definition:
+            'An unintended exposure of sensitive authentication material through code, logs, config, or other channels.',
+        },
+        {
+          term: 'temporary credential',
+          definition:
+            'A short-lived credential issued for limited-time use instead of a long-lived static secret.',
+        },
+        {
+          term: 'static secret',
+          definition:
+            'A long-lived credential value that remains valid until explicitly rotated or revoked.',
+        },
+        {
+          term: 'secret sprawl',
+          definition:
+            'Secrets being copied into too many places, making them harder to track and protect.',
+        },
+        {
+          term: 'audit trail',
+          definition:
+            'A recorded history showing who accessed or changed a secret and when.',
+        },
+        {
+          term: 'revocation',
+          definition:
+            'Invalidating a credential so it can no longer be used.',
+        },
+        {
+          term: 'vault',
+          definition:
+            'A secure system used to store and control access to secrets.',
+        },
+        {
+          term: 'key management',
+          definition:
+            'Managing cryptographic keys used for encryption, signing, or identity.',
+        },
+        {
+          term: 'runtime retrieval',
+          definition:
+            'Fetching a secret at application startup or request time instead of baking it into the artifact.',
+        },
+        {
+          term: 'encrypted at rest',
+          definition:
+            'Stored in a form that is unreadable without the appropriate decryption key.',
+        },
+        {
+          term: 'masking',
+          definition:
+            'Preventing secret values from appearing in logs, output, or user interfaces.',
+        },
+        {
+          term: 'OIDC federation',
+          definition:
+            'Using identity-based short-lived credential exchange instead of storing long-lived cloud secrets directly in CI systems.',
+        },
+        {
+          term: 'break-glass access',
+          definition:
+            'Emergency access to protected secrets or systems under tightly controlled exceptional procedures.',
+        },
+      ],
+      questions: [
+        {
+          id: 'cicd-secret-1',
+          prompt:
+            'What is the main purpose of secrets management?',
+          choices: [
+            'To store and provide sensitive credentials safely while controlling access and lifecycle',
+            'To make passwords easier to hardcode in repositories',
+            'To replace authentication systems entirely',
+            'To avoid using any credentials in CI/CD',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Secrets management is about handling sensitive values safely throughout their lifecycle. This includes storage, access control, rotation, revocation, and auditability.',
+        },
+        {
+          id: 'cicd-secret-2',
+          prompt:
+            'Why is committing secrets directly into source control dangerous?',
+          choices: [
+            'Because they can leak through history, clones, logs, CI output, and broad repository access',
+            'Because git cannot store strings safely',
+            'Because secrets in code are automatically encrypted by default',
+            'Because repositories never have any access controls',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Source control history is durable and widely copied. Once a secret enters it, cleanup is difficult and the blast radius can be large, especially if the repository is widely cloned or mirrored.',
+        },
+        {
+          id: 'cicd-secret-3',
+          prompt:
+            'Why should production secrets usually be different from development secrets?',
+          choices: [
+            'To reduce blast radius and keep lower-trust environments from granting production access',
+            'Because development never needs credentials at all',
+            'Because using the same secret everywhere improves rotation',
+            'Because staging is always more sensitive than production',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Separating secrets by environment limits damage if a lower-trust environment is compromised. It also supports least privilege and clearer operational boundaries.',
+        },
+        {
+          id: 'cicd-secret-4',
+          prompt:
+            'What is secret rotation?',
+          choices: [
+            'Replacing an old credential with a new one in a controlled way',
+            'Copying the same secret into more systems for redundancy',
+            'Printing secrets during deployment for confirmation',
+            'Moving secrets from one code file to another',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Rotation reduces long-term exposure by limiting how long a credential remains valid. It is important both as a routine practice and as an emergency response after potential leakage.',
+        },
+        {
+          id: 'cicd-secret-5',
+          prompt:
+            'Why are short-lived temporary credentials often safer than long-lived static secrets?',
+          choices: [
+            'Because they reduce the window of misuse if leaked and often avoid manual rotation burden',
+            'Because they can never be revoked',
+            'Because they do not need authentication context',
+            'Because they should always be stored in source control',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Temporary credentials reduce risk because they expire automatically. This limits the damage of accidental exposure and can be paired with identity-based issuance such as OIDC.',
+        },
+        {
+          id: 'cicd-secret-6',
+          prompt:
+            'What does least privilege mean for secrets access?',
+          choices: [
+            'A service or pipeline should only be able to access the specific secrets it actually needs',
+            'Every engineer should be able to read every production key',
+            'Secrets should be shared broadly for convenience',
+            'Permissions should be granted permanently to avoid outages',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Least privilege reduces blast radius. If one workflow, user, or service is compromised, it should not automatically gain access to unrelated credentials or environments.',
+        },
+        {
+          id: 'cicd-secret-7',
+          prompt:
+            'Why is masking secrets in logs and pipeline output important?',
+          choices: [
+            'Because logs are a common accidental leak path for sensitive values',
+            'Because logs can never be accessed by humans',
+            'Because masking makes rotation unnecessary',
+            'Because only production logs need security controls',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Even if secrets are stored safely, they can still leak through output if commands echo them or tools print them by accident. Masking helps reduce this common operational risk.',
+        },
+        {
+          id: 'cicd-secret-8',
+          prompt:
+            'What is the benefit of retrieving secrets at runtime instead of baking them into artifacts?',
+          choices: [
+            'It keeps deployable artifacts reusable and reduces secret exposure in build outputs',
+            'It makes the application stateless automatically',
+            'It eliminates the need for access controls',
+            'It guarantees the secret can never be leaked',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Runtime retrieval helps separate code from credentials. This supports safer artifact promotion across environments and reduces the chance that secrets end up inside images or packages.',
+        },
+        {
+          id: 'cicd-secret-9',
+          prompt:
+            'Why is an audit trail useful in secrets management?',
+          choices: [
+            'It shows who accessed or changed secrets, which helps with investigation and compliance',
+            'It replaces encryption entirely',
+            'It means secrets no longer need rotation',
+            'It only matters if the system has no CI/CD pipeline',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Audit trails help teams understand usage patterns, detect suspicious access, and support incident investigation. This is especially important for sensitive production credentials.',
+        },
+        {
+          id: 'cicd-secret-10',
+          prompt:
+            'What is the best high-level secrets management mindset?',
+          choices: [
+            'Keep secrets out of code, scope access tightly, inject them securely, and plan for rotation and revocation',
+            'Store secrets wherever deployment is most convenient',
+            'Prefer one shared master secret for all environments',
+            'Treat credential handling as separate from operational reliability',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Strong secrets management is about minimizing exposure and making credentials operationally manageable. This includes secure storage, narrow access, safe delivery, and readiness to rotate or revoke when needed.',
+        },
+      ],
+    },
   },
 }

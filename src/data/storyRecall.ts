@@ -101,5 +101,12 @@ export const behavioralHistorySection: SectionData = {
       vocab: [],
       questions: [],
     },
+    greatestAchievement: {
+      title: 'Greatest Achievement',
+      description: '',
+      explanation: '',
+      vocab: [],
+      questions: [],
+    },
   },
 }

@@ -3507,5 +3507,758 @@ export const systemsDesignSection: SectionData = {
         },
       ],
     },
+    cdnEdge: {
+      title: 'CDN / Edge Networks',
+      description:
+        'Geographic distribution, caching closer to users, and edge delivery tradeoffs',
+      explanation:
+        'CDNs and edge networks are used to move content and some computation closer to users so responses are faster, origin infrastructure handles less load, and global traffic is served more efficiently. In systems design interviews, strong candidates understand that a CDN is not just “a cache somewhere on the internet.” It is a geographically distributed layer that can cache static assets, accelerate dynamic content in some cases, terminate TLS, enforce security rules, and sometimes run lightweight logic at the edge. Good answers explain what content is cacheable, how cache keys are chosen, how invalidation works, what still must go to origin, and how edge delivery affects latency, origin cost, and consistency. The goal is to show when a CDN is a major win and when it does not solve the underlying problem.',
+      vocab: [
+        {
+          term: 'CDN',
+          definition:
+            'A content delivery network that serves content from geographically distributed locations closer to users.',
+        },
+        {
+          term: 'edge location',
+          definition:
+            'A distributed point of presence where CDN content is cached and served near users.',
+        },
+        {
+          term: 'origin',
+          definition:
+            'The backend server or storage system where content originally comes from.',
+        },
+        {
+          term: 'cache key',
+          definition:
+            'The identity the CDN uses to decide whether two requests should share a cached response.',
+        },
+        {
+          term: 'cache invalidation',
+          definition:
+            'The process of removing or refreshing outdated content from CDN caches.',
+        },
+        {
+          term: 'TTL',
+          definition:
+            'Time to live, the duration a CDN can serve cached content before revalidation or expiration.',
+        },
+        {
+          term: 'cache hit',
+          definition:
+            'A request served directly from the CDN cache without going to origin.',
+        },
+        {
+          term: 'cache miss',
+          definition:
+            'A request the CDN cannot serve from cache and must fetch from origin.',
+        },
+        {
+          term: 'static asset',
+          definition:
+            'Content like images, CSS, JavaScript, or video files that is commonly cacheable.',
+        },
+        {
+          term: 'dynamic content',
+          definition:
+            'Personalized or changing content that may be less cacheable or require special strategies.',
+        },
+        {
+          term: 'edge compute',
+          definition:
+            'Running lightweight logic at or near CDN edge locations before reaching origin.',
+        },
+        {
+          term: 'TLS termination',
+          definition:
+            'Handling encrypted HTTPS connections at the CDN or edge layer.',
+        },
+        {
+          term: 'purge',
+          definition:
+            'An explicit request to remove cached objects from CDN storage.',
+        },
+        {
+          term: 'signed URL',
+          definition:
+            'A URL containing authorization information so protected content can be served securely.',
+        },
+        {
+          term: 'geo latency',
+          definition:
+            'The network delay caused by physical distance between users and infrastructure.',
+        },
+        {
+          term: 'point of presence',
+          definition:
+            'A physical CDN site or region serving nearby traffic.',
+        },
+        {
+          term: 'edge security filtering',
+          definition:
+            'Blocking or rate-limiting malicious traffic at the edge before it reaches origin.',
+        },
+        {
+          term: 'origin shield',
+          definition:
+            'An extra CDN layer or region used to reduce repeated origin fetches and protect origin infrastructure.',
+        },
+        {
+          term: 'cache-control header',
+          definition:
+            'HTTP metadata that tells intermediaries how and whether a response may be cached.',
+        },
+        {
+          term: 'stale content window',
+          definition:
+            'A period during which cached data may lag behind the newest origin version.',
+        },
+      ],
+      questions: [
+        {
+          id: 'sd-cdn-1',
+          prompt:
+            'What is the main reason to use a CDN?',
+          choices: [
+            'To serve content closer to users and reduce load on origin systems',
+            'To replace all backend databases',
+            'To guarantee strong consistency for every request',
+            'To eliminate the need for application servers',
+          ],
+          correctIndex: 0,
+          explanation:
+            'A CDN primarily improves latency and scalability by serving cacheable content from distributed edge locations. It also reduces repeated requests hitting the origin.',
+        },
+        {
+          id: 'sd-cdn-2',
+          prompt:
+            'Which type of content is usually the best candidate for CDN caching?',
+          choices: [
+            'Static assets like images, CSS, and JavaScript',
+            'Highly personalized per-user account balances',
+            'One-time transactional writes',
+            'Database migration scripts',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Static assets are commonly reused across many users and change less often, making them ideal for CDN caching. Personalized sensitive responses are usually much harder to cache safely.',
+        },
+        {
+          id: 'sd-cdn-3',
+          prompt:
+            'What is a cache hit at the CDN layer?',
+          choices: [
+            'The CDN serves the response without contacting the origin',
+            'The origin database completes a write successfully',
+            'The user refreshes the browser twice',
+            'The CDN restarts an edge server',
+          ],
+          correctIndex: 0,
+          explanation:
+            'A cache hit means the requested object is already stored at the CDN edge and can be returned immediately, improving latency and reducing origin traffic.',
+        },
+        {
+          id: 'sd-cdn-4',
+          prompt:
+            'Why can cache invalidation be difficult with CDNs?',
+          choices: [
+            'Because outdated content may already exist across many distributed edge caches',
+            'Because CDNs cannot store any metadata',
+            'Because invalidation only works for video files',
+            'Because TTLs remove the need for invalidation planning',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Once content is distributed globally, updating or purging it everywhere can be operationally tricky. This is a classic consistency tradeoff with caching systems.',
+        },
+        {
+          id: 'sd-cdn-5',
+          prompt:
+            'What does a cache key control in a CDN?',
+          choices: [
+            'Which requests are considered equivalent for cached reuse',
+            'Which developers can edit production code',
+            'How many pods run in Kubernetes',
+            'Whether the database is relational',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The cache key determines what differentiates one response from another. If it is designed poorly, users may get the wrong cached content or the cache may fragment badly.',
+        },
+        {
+          id: 'sd-cdn-6',
+          prompt:
+            'Why might personalized API responses be harder to cache at the CDN?',
+          choices: [
+            'Because responses may differ by user and caching can risk incorrect or unsafe sharing',
+            'Because CDNs only support image files',
+            'Because HTTPS prevents caching',
+            'Because edge locations cannot read headers',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Per-user responses often vary by identity, permissions, or session state. That makes safe shared caching much harder and increases the importance of correct cache keys and headers.',
+        },
+        {
+          id: 'sd-cdn-7',
+          prompt:
+            'What is one important benefit of edge security filtering?',
+          choices: [
+            'Malicious or excessive traffic can be blocked before reaching the origin',
+            'It guarantees all requests are cache hits',
+            'It replaces authentication completely',
+            'It removes the need for logs and metrics',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The edge layer can absorb or reject abusive traffic earlier, which reduces origin load and improves resilience during attacks or spikes.',
+        },
+        {
+          id: 'sd-cdn-8',
+          prompt:
+            'What is the role of the origin in a CDN-backed architecture?',
+          choices: [
+            'It is the authoritative source the CDN fetches content from on misses or refreshes',
+            'It is the same thing as the browser cache',
+            'It only exists for staging environments',
+            'It replaces DNS resolution',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The CDN is an optimization and distribution layer. The origin remains the source of truth for the underlying content or application response.',
+        },
+        {
+          id: 'sd-cdn-9',
+          prompt:
+            'When might edge compute be useful?',
+          choices: [
+            'When lightweight request logic should run near users before hitting the origin',
+            'When the full database should be moved into every browser',
+            'When all application logic needs strong transactions at the edge',
+            'When the team wants to avoid all network routing decisions',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Edge compute can help with lightweight personalization, redirects, headers, auth preprocessing, or request filtering. It is useful when running small logic close to users provides value.',
+        },
+        {
+          id: 'sd-cdn-10',
+          prompt:
+            'What is the best high-level way to talk about CDNs in a systems design interview?',
+          choices: [
+            'Explain what content is cacheable, how freshness is managed, and how the CDN reduces latency and origin load',
+            'Say “put it behind a CDN” and move on without details',
+            'Assume a CDN makes all dynamic systems globally consistent',
+            'Treat a CDN as a direct replacement for application design',
+          ],
+          correctIndex: 0,
+          explanation:
+            'A strong answer shows you understand both the benefits and the limits of CDNs. You should be able to explain what is cached, what is not, and how consistency and invalidation are handled.',
+        },
+      ],
+    },
+    apiDesign: {
+      title: 'API Design',
+      description:
+        'Resource modeling, contracts, versioning, and interface tradeoffs',
+      explanation:
+        'API design is about defining how clients interact with a system in a way that is clear, maintainable, secure, and efficient. In systems design interviews, strong candidates treat APIs as contracts, not just endpoints. Good API design reflects the system’s resources and workflows, exposes the right data without unnecessary coupling, and considers pagination, filtering, idempotency, authentication, error handling, rate limits, and backward compatibility. Strong answers also recognize tradeoffs between styles such as REST, RPC, and GraphQL depending on the workload. The goal is not to memorize naming conventions. The goal is to design interfaces that are understandable to clients and sustainable for the system over time.',
+      vocab: [
+        {
+          term: 'API',
+          definition:
+            'An application programming interface through which clients interact with a service.',
+        },
+        {
+          term: 'endpoint',
+          definition:
+            'A specific path or operation exposed by an API.',
+        },
+        {
+          term: 'resource',
+          definition:
+            'A logical entity represented by the API, such as a user, order, or document.',
+        },
+        {
+          term: 'REST',
+          definition:
+            'A common API style centered around resources, HTTP verbs, and stateless interactions.',
+        },
+        {
+          term: 'RPC',
+          definition:
+            'A remote procedure call style where the API exposes operations more directly as callable actions.',
+        },
+        {
+          term: 'GraphQL',
+          definition:
+            'An API approach where clients request specific fields and shapes of data through a query layer.',
+        },
+        {
+          term: 'idempotent endpoint',
+          definition:
+            'An API operation that can be retried safely without changing the final result beyond the first successful application.',
+        },
+        {
+          term: 'pagination',
+          definition:
+            'Splitting large result sets into smaller retrievable chunks.',
+        },
+        {
+          term: 'cursor pagination',
+          definition:
+            'Pagination using a stable continuation token or position rather than numeric offsets.',
+        },
+        {
+          term: 'offset pagination',
+          definition:
+            'Pagination based on skipping a fixed number of rows before returning the next page.',
+        },
+        {
+          term: 'filtering',
+          definition:
+            'Restricting returned results based on client-specified criteria.',
+        },
+        {
+          term: 'sorting',
+          definition:
+            'Ordering API results according to one or more fields.',
+        },
+        {
+          term: 'versioning',
+          definition:
+            'Managing API changes over time so clients are not broken unexpectedly.',
+        },
+        {
+          term: 'backward compatibility',
+          definition:
+            'The ability to evolve an API without breaking existing clients.',
+        },
+        {
+          term: 'contract',
+          definition:
+            'The expected request and response behavior clients rely on.',
+        },
+        {
+          term: 'status code',
+          definition:
+            'An HTTP response code indicating the result class of a request.',
+        },
+        {
+          term: 'error payload',
+          definition:
+            'The structured information returned when an API request fails.',
+        },
+        {
+          term: 'rate limit',
+          definition:
+            'A control restricting how many API requests a client can make over time.',
+        },
+        {
+          term: 'schema',
+          definition:
+            'The structure and types of fields expected in API requests or responses.',
+        },
+        {
+          term: 'overfetching',
+          definition:
+            'Returning more data than the client actually needs.',
+        },
+      ],
+      questions: [
+        {
+          id: 'sd-api-1',
+          prompt:
+            'What is the main goal of good API design?',
+          choices: [
+            'To create a clear, stable contract between clients and the system',
+            'To maximize the number of endpoints regardless of need',
+            'To avoid versioning at all costs',
+            'To return the largest possible payload on every request',
+          ],
+          correctIndex: 0,
+          explanation:
+            'An API is a contract clients depend on. Good design makes that contract understandable, usable, and maintainable over time.',
+        },
+        {
+          id: 'sd-api-2',
+          prompt:
+            'Why is pagination important in API design?',
+          choices: [
+            'Because large result sets should usually be split into manageable pages',
+            'Because APIs cannot return arrays otherwise',
+            'Because pagination guarantees strong consistency',
+            'Because it replaces filtering and sorting',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Pagination protects both clients and servers from excessively large responses and makes data retrieval more practical and scalable.',
+        },
+        {
+          id: 'sd-api-3',
+          prompt:
+            'When is cursor pagination often better than offset pagination?',
+          choices: [
+            'When large or changing datasets make stable continuation more important',
+            'When no ordering exists at all',
+            'When clients need random page 500 instantly by index only',
+            'When the API has no persistent storage',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Cursor pagination is often more stable and efficient for large changing datasets because it avoids expensive skips and reduces inconsistency caused by inserted or deleted rows.',
+        },
+        {
+          id: 'sd-api-4',
+          prompt:
+            'Why does backward compatibility matter in APIs?',
+          choices: [
+            'Because existing clients may still rely on older request and response behavior',
+            'Because all clients upgrade instantly with every deployment',
+            'Because API changes never affect integrations',
+            'Because it only matters for internal services',
+          ],
+          correctIndex: 0,
+          explanation:
+            'API consumers may lag behind or be outside your direct control. Breaking them carelessly creates outages and integration pain, so evolution usually needs compatibility planning.',
+        },
+        {
+          id: 'sd-api-5',
+          prompt:
+            'What is overfetching in API design?',
+          choices: [
+            'Returning more data than the client actually needs',
+            'Fetching too little data for the database',
+            'Calling an API without authentication',
+            'Sending too many retries after a timeout',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Overfetching wastes bandwidth and client processing. Good API design tries to expose useful responses without forcing clients to retrieve lots of irrelevant data.',
+        },
+        {
+          id: 'sd-api-6',
+          prompt:
+            'Why is structured error payload design useful?',
+          choices: [
+            'It helps clients understand what failed and how to respond programmatically',
+            'It makes status codes unnecessary',
+            'It guarantees no request will fail',
+            'It should only be used in staging',
+          ],
+          correctIndex: 0,
+          explanation:
+            'A useful API error response includes enough structure for clients to debug, display appropriate messages, or take corrective action without guessing.',
+        },
+        {
+          id: 'sd-api-7',
+          prompt:
+            'When is an idempotent API endpoint especially valuable?',
+          choices: [
+            'When clients may retry after timeouts and duplicate side effects would be harmful',
+            'When every request must always create a new unique side effect',
+            'When the API only serves static images',
+            'When no network failures are possible',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Retries are common in distributed systems. Idempotent design is especially important for operations like payments, order creation, and job submission.',
+        },
+        {
+          id: 'sd-api-8',
+          prompt:
+            'What is a strong reason to include filtering and sorting in list APIs?',
+          choices: [
+            'They let clients retrieve relevant subsets efficiently instead of pulling everything',
+            'They remove the need for pagination',
+            'They guarantee lower latency in every backend design',
+            'They only matter for admin dashboards',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Filtering and sorting make APIs more practical and efficient by letting clients ask for the data they actually need rather than forcing broad full-list retrieval.',
+        },
+        {
+          id: 'sd-api-9',
+          prompt:
+            'What is the main tradeoff GraphQL is often trying to address?',
+          choices: [
+            'Giving clients more control over response shape to reduce underfetching or overfetching',
+            'Replacing authentication with query syntax',
+            'Guaranteeing simpler backend implementations',
+            'Eliminating the need for schema design',
+          ],
+          correctIndex: 0,
+          explanation:
+            'GraphQL is often chosen when client flexibility matters a lot. Its strength is allowing clients to request exactly the fields they need, though it introduces other complexity.',
+        },
+        {
+          id: 'sd-api-10',
+          prompt:
+            'What is the best interview-level way to discuss API design?',
+          choices: [
+            'Describe the client contract, resource or operation model, result shaping, errors, versioning, and retry/backward-compatibility concerns',
+            'Only list endpoint names without explaining behavior',
+            'Focus entirely on HTTP status codes and nothing else',
+            'Assume API design is separate from system design',
+          ],
+          correctIndex: 0,
+          explanation:
+            'A strong answer treats the API as part of the architecture. It explains how clients interact with the system and how that interface remains scalable and usable over time.',
+        },
+      ],
+    },
+    search: {
+      title: 'Search',
+      description:
+        'Indexing, retrieval, ranking, and query-serving architecture',
+      explanation:
+        'Search systems are designed to let users retrieve relevant results quickly from large collections of documents, products, messages, or other content. In systems design interviews, strong candidates separate the problem into ingestion, indexing, query serving, ranking, and freshness. Good answers explain how raw content is transformed into an index, how queries are parsed, how candidate results are retrieved efficiently, and how those candidates are ranked by relevance. They also discuss autocomplete, typo tolerance, filtering, faceting, pagination, and tradeoffs between freshness and latency. The goal is not to say “use Elasticsearch” and stop. The goal is to show you understand the architecture and the decisions behind a scalable, relevant search experience.',
+      vocab: [
+        {
+          term: 'index',
+          definition:
+            'A data structure optimized for retrieving documents or records that match search queries.',
+        },
+        {
+          term: 'inverted index',
+          definition:
+            'A structure mapping terms to the documents containing them, fundamental to many text search engines.',
+        },
+        {
+          term: 'document',
+          definition:
+            'A searchable unit such as a web page, product, message, or article.',
+        },
+        {
+          term: 'tokenization',
+          definition:
+            'Breaking text into searchable terms or tokens during indexing or query processing.',
+        },
+        {
+          term: 'query parsing',
+          definition:
+            'Interpreting the user’s search input into terms, operators, filters, or structured intent.',
+        },
+        {
+          term: 'retrieval',
+          definition:
+            'The process of finding candidate results that may match a query.',
+        },
+        {
+          term: 'ranking',
+          definition:
+            'Ordering retrieved candidates by estimated relevance or usefulness.',
+        },
+        {
+          term: 'relevance',
+          definition:
+            'How well a result matches the user’s query and intent.',
+        },
+        {
+          term: 'BM25',
+          definition:
+            'A common relevance scoring method used in text retrieval systems.',
+        },
+        {
+          term: 'autocomplete',
+          definition:
+            'Suggesting likely queries or completions as the user types.',
+        },
+        {
+          term: 'typeahead',
+          definition:
+            'Real-time search suggestion behavior while a query is being entered.',
+        },
+        {
+          term: 'facet',
+          definition:
+            'A grouped filter dimension such as brand, category, or price range in search results.',
+        },
+        {
+          term: 'filter',
+          definition:
+            'A constraint narrowing results by structured fields without necessarily affecting keyword relevance.',
+        },
+        {
+          term: 'freshness',
+          definition:
+            'How quickly new or changed data becomes searchable.',
+        },
+        {
+          term: 'indexing pipeline',
+          definition:
+            'The process that ingests source data, transforms it, and writes it into the search index.',
+        },
+        {
+          term: 'shard',
+          definition:
+            'A partition of the search index distributed across machines for scale.',
+        },
+        {
+          term: 'replica',
+          definition:
+            'A duplicate of a search shard used for availability or read scaling.',
+        },
+        {
+          term: 'query latency',
+          definition:
+            'The time it takes to return search results after a query is issued.',
+        },
+        {
+          term: 'typo tolerance',
+          definition:
+            'Support for matching likely intended terms even when the query is misspelled.',
+        },
+        {
+          term: 'recall versus precision',
+          definition:
+            'The balance between finding more possibly relevant results and ensuring returned results are highly relevant.',
+        },
+      ],
+      questions: [
+        {
+          id: 'sd-search-1',
+          prompt:
+            'What is the main purpose of an inverted index in text search?',
+          choices: [
+            'To map terms to documents containing them for efficient retrieval',
+            'To store user sessions by region',
+            'To replace ranking completely',
+            'To enforce rate limits on queries',
+          ],
+          correctIndex: 0,
+          explanation:
+            'An inverted index is the core retrieval structure in many search engines. Instead of scanning every document, the engine can jump directly from query terms to candidate documents.',
+        },
+        {
+          id: 'sd-search-2',
+          prompt:
+            'Why is tokenization important in a search system?',
+          choices: [
+            'Because documents and queries need to be broken into searchable terms consistently',
+            'Because it guarantees perfect ranking',
+            'Because it replaces indexing',
+            'Because it only matters for autocomplete',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Tokenization affects what terms are searchable and how matching works. Poor tokenization can damage both recall and relevance.',
+        },
+        {
+          id: 'sd-search-3',
+          prompt:
+            'What is the difference between retrieval and ranking?',
+          choices: [
+            'Retrieval finds candidate matches, while ranking orders them by relevance',
+            'Retrieval sorts final results alphabetically, while ranking stores the index',
+            'They are exactly the same stage',
+            'Ranking happens before any candidate results are found',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Search often works in stages. Retrieval narrows the space to plausible matches, then ranking decides which of those matches should appear first.',
+        },
+        {
+          id: 'sd-search-4',
+          prompt:
+            'Why is freshness an important search-system concern?',
+          choices: [
+            'Because users often expect new or updated content to become searchable quickly',
+            'Because stale search results only affect internal logging',
+            'Because freshness removes the need for ranking',
+            'Because indexes should never be updated after creation',
+          ],
+          correctIndex: 0,
+          explanation:
+            'A search system that returns outdated content can feel broken, especially for products, messages, news, or fast-changing documents. Freshness is therefore a key architecture tradeoff.',
+        },
+        {
+          id: 'sd-search-5',
+          prompt:
+            'What is a facet in search?',
+          choices: [
+            'A grouped filter dimension such as category, brand, or price range',
+            'A way to encrypt search queries',
+            'A replication policy for search shards',
+            'A synonym expansion algorithm only',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Facets help users narrow results interactively using structured dimensions. They are especially common in e-commerce and catalog search.',
+        },
+        {
+          id: 'sd-search-6',
+          prompt:
+            'Why might autocomplete be implemented separately from full search ranking?',
+          choices: [
+            'Because typeahead needs extremely low latency and often uses different data structures and ranking signals',
+            'Because autocomplete never uses indexed data',
+            'Because full search cannot return partial matches',
+            'Because autocomplete only works on mobile devices',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Autocomplete has stricter latency needs and a different UX goal than full result ranking. It often uses specialized prefix-oriented or query-log-based structures.',
+        },
+        {
+          id: 'sd-search-7',
+          prompt:
+            'What does typo tolerance improve?',
+          choices: [
+            'The ability to still return useful results when users misspell queries',
+            'The consistency of distributed transactions',
+            'The write throughput of the primary database',
+            'The strength of API authentication',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Users often make spelling mistakes or partial inputs. Typo tolerance improves recall and usability by helping the system recover from those imperfect queries.',
+        },
+        {
+          id: 'sd-search-8',
+          prompt:
+            'Why are shards used in large search systems?',
+          choices: [
+            'To partition the index across multiple machines for scale and parallel query serving',
+            'To avoid all need for replicas',
+            'To make indexing unnecessary',
+            'To guarantee zero latency for all queries',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Large indexes often cannot fit efficiently on one machine. Sharding distributes storage and query work across multiple nodes.',
+        },
+        {
+          id: 'sd-search-9',
+          prompt:
+            'What is the tradeoff between recall and precision in search?',
+          choices: [
+            'Higher recall finds more potentially relevant results, while higher precision emphasizes returning the most relevant results',
+            'Recall controls indexing speed and precision controls memory only',
+            'They are two names for query latency',
+            'Precision matters only for autocomplete',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Search systems often balance how broadly they match versus how strictly they rank. Too much recall can flood results with weak matches, while too much precision can miss useful results.',
+        },
+        {
+          id: 'sd-search-10',
+          prompt:
+            'What is the best interview-level way to discuss a search system?',
+          choices: [
+            'Break it into ingestion, indexing, retrieval, ranking, freshness, and user-facing features like filters or autocomplete',
+            'Only say to use a search engine product without describing architecture',
+            'Focus only on database schema and ignore query serving',
+            'Treat search as identical to simple key-value lookup',
+          ],
+          correctIndex: 0,
+          explanation:
+            'A strong answer shows you understand the pipeline from source data to user results. Search is not just storage. It is also retrieval quality, ranking, latency, and freshness.',
+        },
+      ],
+    },
   },
 }
